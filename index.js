@@ -14,11 +14,10 @@
 # If you want to know more about the bot, you can visit our website.
 */
 
-
-const { EmbedBuilder } = require('discord.js');
-const { get } = require("superagent");
-const mongoose = require("mongoose");
-const chalk = require("chalk");
+import errorConsole from "./src/scripts/errors_console.js";
+import { EmbedBuilder, Message } from 'discord.js';
+import { get } from "superagent";
+import { redBright } from "chalk";
 
 /**
  * 
@@ -43,23 +42,7 @@ async function redditPublish(pass, channel, res) {
         })
         .setTimestamp();
     channel.send({ embeds: [embed] }).catch((err) => {
-        console.log(chalk.redBright(`[Error]`) + err)
-    });
-}
-
-/**
- * 
- * @param {String} URLmongo
- * 
- */
-async function connectMongoDB(URLmongo) {
-    mongoose.set("strictQuery", false);
-    mongoose.connect(URLmongo, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }).then(() => {
-    }).catch((err) => {
-        throw new Error(err);
+        console.log(redBright(`[Error]`) + err)
     });
 }
 
@@ -73,10 +56,45 @@ async function waifuApi(action) {
         const { body } = await get(`https://api.waifu.pics/sfw/${action}`);
         return body.url;
     } catch (err) {
-        console.log(chalk.redBright(`[Error]`) + err)
+        console.log(redBright(`[Error]`) + err)
     }
 }
 
-module.exports = {
-    redditPublish, connectMongoDB, waifuApi
+/**
+ * 
+ * @param {Number} delayInms
+ * 
+ */
+function delay(delayInms) {
+    try {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(2);
+            }, delayInms);
+        });
+    } catch (e) {
+        console.log(String(e.stack).grey.bgRed)
+    }
+}
+
+function nFormatter(num, digits = 2) {
+    const lookup = [
+        { value: 1, symbol: "" },
+        { value: 1e3, symbol: "k" },
+        { value: 1e6, symbol: "M" },
+        { value: 1e9, symbol: "G" },
+        { value: 1e12, symbol: "T" },
+        { value: 1e15, symbol: "P" },
+        { value: 1e18, symbol: "E" }
+    ];
+    const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+    var item = lookup.slice().reverse().find(function (item) {
+        return num >= item.value;
+    });
+    return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
+}
+
+
+export default { 
+    redditPublish, waifuApi, delay, nFormatter, errorConsole
 }
