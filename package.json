@@ -1,0 +1,27 @@
+{
+  "name": "night-controls",
+  "version": "1.0.0",
+  "description": "Support package for private discord apps development by hanzel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MikaboshiDev/Night-Support.git"
+  },
+  "keywords": [
+    "neko-manager",
+    "discord",
+    "console",
+    "paypal",
+    "whatsapp-web",
+    "chatgpt"
+  ],
+  "author": "Night Studio",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MikaboshiDev/Night-Support/issues"
+  },
+  "homepage": "https://github.com/MikaboshiDev/Night-Support#readme"
+}
