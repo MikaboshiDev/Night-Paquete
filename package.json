@@ -1,6 +1,6 @@
 {
   "name": "night-controls",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Support package for private discord apps development by hanzel",
   "main": "index.js",
   "scripts": {
