@@ -1,4 +1,4 @@
-import { redBright, white } from "chalk";
+const { redBright, white } = require("chalk");
 
 async function ErrorHandler({ error, status }) {
     console.log(redBright.bold(`[Error]`) + white.bold(` ${error.stack}`));
@@ -19,4 +19,4 @@ async function ErrorCommands({ error, status, name, message }) {
     });
 }
 
-export default { ErrorHandler, ErrorCommands }
+module.exports = { ErrorHandler, ErrorCommands }

@@ -14,10 +14,10 @@
 # If you want to know more about the bot, you can visit our website.
 */
 
-import errorConsole from "./src/scripts/errors_console.js";
-import { EmbedBuilder, Message } from 'discord.js';
-import { get } from "superagent";
-import { redBright } from "chalk";
+const errorConsole = require("./src/scripts/errors_console.js");
+const { EmbedBuilder, Message } = require('discord.js');
+const { get } = require("superagent");
+const { redBright } = require("chalk");
 
 /**
  * 
@@ -95,6 +95,6 @@ function nFormatter(num, digits = 2) {
 }
 
 
-export default { 
+module.exports = {
     redditPublish, waifuApi, delay, nFormatter, errorConsole
 }

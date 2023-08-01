@@ -1,9 +1,9 @@
 {
   "name": "night-controls",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Support package for private discord apps development by hanzel",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
