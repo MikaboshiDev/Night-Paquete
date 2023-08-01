@@ -1,22 +1,82 @@
-const quotes = [
-    "En esta isla vivió, durante cuatro largos años, Robinson Crusoe, cuya historia no solamente fascinó y emocionó al mundo entero sino que puso en el mapa del mundo a esta isla en la cual viven ochocientas chilenas y chilenos.",
-    "Y durante nuestro Gobierno, vamos a entregar cinco nuevos ‘tiatros’ regionales en Iquique, La Serena, ‘Rancuagua’, Concepción y Punta Arenas.",
-    "Si usted maneja, no conduce.",
-    "Nunca han mirado las estrellas, la galactea o el fondo del alma? Una cosa es mirar e intentar descubrir y otra cosa ver que es lo sensorial",
-    "Marepoto",
-    "Tusunami",
-    "Es la misma bandera con que hemos ‘cubrido’ tantas veces los féretros de nuestros ‘mártis’",
-    "Ha llegado el fin de año, tiempo en que nos preguntamos, qué hicimos bien, qué hicimos mal, qué ‘podimos’ haber hecho mejor"
-];
+/*
+# Discord Server: https://discord.gg/pgDje8S3Ed
+# Github: https://github.com/MikaboshiDev
+# Docs: https://bit.ly/nightdevelopment
+# Dashboard: https://bit.ly/nightdashboard
+
+# Created by: MikaboshiDev
+# Version: 1.0.0
+# Discord: azazel_hla
+
+# This file is the main configuration file for the bot.
+# Inside this file you will find all the settings you need to configure the bot.
+# If you have any questions, please contact us on our discord server.
+# If you want to know more about the bot, you can visit our website.
+*/
+
+
+const { EmbedBuilder } = require('discord.js');
+const { get } = require("superagent");
+const mongoose = require("mongoose");
+const chalk = require("chalk");
 
 /**
- * Gets a random Piñera Quote
- * @returns {string}
+ * 
+ * @param {Boolean} pass
+ * @param {String} channel
+ * @param {String} res
+ * 
  */
-function randomQuote() {
-    return quotes[Math.floor(Math.random() * quotes.length)];
+async function redditPublish(pass, channel, res) {
+    if (pass == false) return;
+    if (!channel) return;
+    const json = await res.json();
+
+    const embed = new EmbedBuilder()
+        .setTitle(json[0].data.children[0].data.title)
+        .setURL(`https://reddit.com${json[0].data.children[0].data.permalink}`)
+        .setImage(json[0].data.children[0].data.url)
+        .setColor('Random')
+        .setFooter({
+            text: `👍 ${json[0].data.children[0].data.ups} | 💬 ${json[0].data.children[0].data.num_comments}`,
+            iconURL: 'https://cdn.discordapp.com/emojis/869202202914977822.png?v=1'
+        })
+        .setTimestamp();
+    channel.send({ embeds: [embed] }).catch((err) => {
+        console.log(chalk.redBright(`[Error]`) + err)
+    });
+}
+
+/**
+ * 
+ * @param {String} URLmongo
+ * 
+ */
+async function connectMongoDB(URLmongo) {
+    mongoose.set("strictQuery", false);
+    mongoose.connect(URLmongo, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }).then(() => {
+    }).catch((err) => {
+        throw new Error(err);
+    });
+}
+
+/**
+ * 
+ * @param {String} action
+ * 
+ */
+async function waifuApi(action) {
+    try {
+        const { body } = await get(`https://api.waifu.pics/sfw/${action}`);
+        return body.url;
+    } catch (err) {
+        console.log(chalk.redBright(`[Error]`) + err)
+    }
 }
 
 module.exports = {
-    randomQuote
-};
+    redditPublish, connectMongoDB, waifuApi
+}
