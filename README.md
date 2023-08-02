@@ -53,3 +53,7 @@ en caso de que tengas dudas o errores con el paquete puedes unirte al [servidor 
     </td>
   </tr>
 </table>
+
+## 📜 Creditos
+
+Este paquete se encuentra en desarrollo de momento por lo que no se garantiza su funcionamiento al 100%, si encuentras algun error o bug puedes reportarlo en el [servidor de soporte](https://discord.gg/pgDje8S3Ed) para que sea solucionado lo mas pronto posible.
