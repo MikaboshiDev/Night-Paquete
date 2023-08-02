@@ -2,6 +2,13 @@
     "errors": {
         "1_client": "The customer property is a required value in work requests",
         "1_handler": "The discord bot property handler has not worked as planned",
+        "1_licence": "The discord bot property licence has not worked as planned",
+        "1_command": "The command was not found or an error occurred while executing it on the client",
         "1_error": "An error occurred in the discord application client system, please verify the files involved"
+    },
+    "licence": {
+        "error": "2657edf00184587aed1408359a9fb137905a074f97e5ed2b5b3bc4b4310a67e98fae93092922ac3a5a7aaa2dac9b88e53a446f58fe2ee16791cc09ec8795361e9005d4731b80eba817bf2b51ee999bac5ed4cb00365a5f5978c8f4d0c1b4a5cc9d3f02e9afb82066f30fca3f2c55b3190d6a6104d96b25179485ee76f3296bb00e2c628c25ad30045ac17d9fb118672175403216231067de90eb66dbc4d570bab278d3533aa72be5357d7143820ab86bdd86ecfff5333b53c0",
+        "decline": "2afb3cb0c673ed3f2ed2838415f7a2ff0c061cb4019ef1b698aed3b63ee3c456ebaaf102c7f957535c29fc245aa2b10135301e7e93879d78370e568d5ab378decd3c525adc5f817c65d58126da09da5c1f3074d23320b247b7355589ef4c33a4926578e4898e38665b5447c4d786674f652798bf857db276a75a2771061b574e369c47bf658fc2a79663c0a5944e4c2f5d5fed3c1f725e44cbdd6c6b4930fdc8e6203210f2fba36f4fcca6f21b07f0524ebed186a1d2c534",
+        "accept": "4e9ed03b801330ceba26636c2c64bf634465bf24d889bc89a65d354c29f55c492d29b25d97343e36736b10efed68737008d693c4b3469a2da5c7d899b5b884277491bc30eb9f7f04ee4b3c2073fc4cda18d1ffa0fc68702f2299884af4de73486bcb93f1f7926933bd6c833188864b1251253247b63f38f986906f5290a6df30f5ad87c98f317646f027a21db190247b4174027338c25da8f4b9179ffa71c73ba7f83edca44f753630c85f40790cb4580cc06b014611"
     }
 }
