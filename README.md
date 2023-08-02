@@ -1,6 +1,6 @@
 <h1 align="center">
   <img src="https://cdn.discordapp.com/attachments/1134529955330535487/1136009848526491648/7.gif" alt="BOT VERSION"/><br/>NEKO PACKAGE<br/>
-  <img src="https://img.shields.io/badge/Discord.js-v14-%2334d058?style=flat-square&logo=npm&logoColor=fff" alt="DJS Version"/>
+  <img src="https://app.travis-ci.com/MikaboshiDev/Night-Support.svg?branch=main" alt="Travis Build"/>
   <img src="https://img.shields.io/badge/Node.js-v16-%2334d058?style=flat-square&logo=npm&logoColor=fff" alt="Node Version"/>
   <img src="https://img.shields.io/badge/Version-1.0.5-%2334d058?style=flat-square&logo=npm&logoColor=fff" alt="Version"/>
   <img src="https://img.shields.io/badge/Status-Online-%2334d058?style=flat-square&logo=npm&logoColor=fff" alt="Status"/>
