@@ -1,5 +1,7 @@
 {
     "errors": {
-        "1_client": "The customer property is a required value in work requests"
+        "1_client": "The customer property is a required value in work requests",
+        "1_handler": "The discord bot property handler has not worked as planned",
+        "1_error": "An error occurred in the discord application client system, please verify the files involved"
     }
 }

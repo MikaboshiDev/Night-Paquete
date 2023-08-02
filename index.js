@@ -14,4 +14,5 @@
 # If you want to know more about the bot, you can visit our website.
 */
 
+exports.NightControl = require("./src/scripts/controls");
 exports.NightManager = require("./src/manager");

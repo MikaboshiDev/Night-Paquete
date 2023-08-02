@@ -1,6 +1,6 @@
 {
    "name": "night-controls",
-   "version": "1.0.6",
+   "version": "1.0.7",
    "description": "Package that helps support and optimize discord bots from different functions and declared classes",
    "main": "index.js",
    "type": "commonjs",
@@ -16,8 +16,9 @@
       "discord",
       "console",
       "paypal",
-      "whatsapp-web",
-      "chatgpt"
+      "night support",
+      "chatgpt",
+      "controls"
    ],
    "author": "Night Studio",
    "license": "MIT",
@@ -26,7 +27,6 @@
    },
    "homepage": "https://github.com/MikaboshiDev/Night-Support#readme",
    "dependencies": {
-      "axios": "^1.4.0",
       "chalk": "^4.1.2",
       "discord.js": "^14.12.1",
       "superagent": "^8.0.9"
