@@ -2,7 +2,7 @@
   <img src="https://cdn.discordapp.com/attachments/1134529955330535487/1136009848526491648/7.gif" alt="BOT VERSION"/><br/>NEKO PACKAGE<br/>
   <img src="https://img.shields.io/badge/Discord.js-v14-%2334d058?style=flat-square&logo=npm&logoColor=fff" alt="DJS Version"/>
   <img src="https://img.shields.io/badge/Node.js-v16-%2334d058?style=flat-square&logo=npm&logoColor=fff" alt="Node Version"/>
-  <img src="https://img.shields.io/badge/Version-1.0.0-%2334d058?style=flat-square&logo=npm&logoColor=fff" alt="Version"/>
+  <img src="https://img.shields.io/badge/Version-1.0.5-%2334d058?style=flat-square&logo=npm&logoColor=fff" alt="Version"/>
   <img src="https://img.shields.io/badge/Status-Online-%2334d058?style=flat-square&logo=npm&logoColor=fff" alt="Status"/>
 </h1>
 
@@ -11,37 +11,25 @@
 **NEKO PACKAGE** es un paquete de discord.js que contiene comandos, eventos, funciones y más para facilitar el desarrollo de bots de discordia.
 este paquete es de uso exclusivo para bots de discordia, no se recomienda su uso para otros proyectos aparte de los que se desarrollen por `Hanzel 悟`
 
-## 💣 Implementos
+## 🪙 Estadisticas
 
-| Nombre         | Descripción                                     |
-| -------------- | ----------------------------------------------- |
-| **Formatos**   | Formatos de texto para mensajes y fechas        |
-| **Reddit**     | Busqueda de imagenes en reddit                  |
-| **Control**    | Control de errores en el handler y los comandos |
-| **Utilidades** | Utilidades para el bot                          |
-| **Eventos**    | Eventos para el bot                             |
+![Package Private](https://repobeats.axiom.co/api/embed/942b1cc2f77ede96220b334dac8b6535c1196ecf.svg "Repobeats analytics image")
 
-## Ejemplo de Código
+## 📦 Instalacion
 
-```js
-const { redBright, white } = require('chalk');
+Para instalar el paquete solo debes ejecutar el siguiente comando en la terminal de tu proyecto.
 
-async function ErrorHandler({ error, status }) {
-   console.log(redBright.bold(`[Error]`) + white.bold(` ${error.stack}`));
-   const nombre = error.stack
-      .split('\n')[1]
-      .split('/')
-      .slice(-1)[0]
-      .split(' ')[0];
-   const tiempo = new Date().toLocaleString('es-ES', {
-      timeZone: 'America/Argentina/Buenos_Aires',
-   });
-   console.table(
-      [{ Nombre: nombre, Tiempo: tiempo, Estado: status }],
-      ['Name', 'Time', 'Status']
-   );
-}
-```
+```sh
+npm i @hanzel/nekopackage
+``` 
+
+## 📚 Documentacion
+
+Documentacion del paquete [aqui](https://luiss-horus.gitbook.io/documentacion/), no olvides pasar por el [dashboard](https://bit.ly/nightdashboard) para ver los comandos y eventos que contiene el paquete.
+en caso de que tengas dudas o errores con el paquete puedes unirte al [servidor de soporte](https://discord.gg/pgDje8S3Ed) para recibir ayuda.
+
+- [Documentacion](https://bit.ly/nightdevelopment)
+- [Dashboard](https://bit.ly/nightdashboard)
 
 ## 📝 Licencia
 

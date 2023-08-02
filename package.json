@@ -1,6 +1,6 @@
 {
   "name": "night-controls",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Support package for private discord apps development by hanzel",
   "main": "index.js",
   "type": "commonjs",
@@ -28,6 +28,7 @@
   "dependencies": {
     "axios": "^1.4.0",
     "chalk": "^4.1.2",
+    "discord-sorteos": "^1.2.6",
     "discord.js": "^14.12.1",
     "mongoose": "^7.4.1",
     "superagent": "^8.0.9"
