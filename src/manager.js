@@ -18,8 +18,11 @@ const { Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Moda
 const { redBright, green, yellow, cyan } = require("chalk");
 const { loginConsole } = require("./modules/console");
 const licenceAuth = require("./scripts/licence");
+const { Manager } = require("./modules/embeds");
 const config = require("../config/config.json");
 const { EventEmitter } = require("events");
+var CronJob = require('cron').CronJob;
+const { get } = require("axios");
 const os = require("node:os");
 
 module.exports = class ManagerNight extends EventEmitter {
@@ -28,29 +31,32 @@ module.exports = class ManagerNight extends EventEmitter {
         if (!client?.options) throw new Error(`${redBright.bold("[Night]")} ${config.errors["1_client"]}`);
         this.client = client;
 
-        this.Minecraft = options.minecraft.status;
-        this.Whatsapp = options.whatsapp.status;
-        this.Manager = options.manager.status;
-        this.Addons = options.addons.count;
+        // Setups Systems
+        this.Minecraft = options.systems.minecraft;
+        this.Whatsapp = options.systems.whatsapp;
+        this.Manager = options.systems.manager;
+        this.Addons = options.systems.addons;
         this.Package = options.package;
 
+        // Licence Auth System
         this.licence = options.licence.licence;
         this.api_key = options.licence.api_key;
         this.product = options.licence.product;
         this.version = options.licence.version;
         this.url = options.licence.url;
 
-        this.client.on("ready", async () => {
-            await loginConsole(this.Minecraft, this.Whatsapp, this.Manager, this.Addons, this.Package, this.client);
-        });
+        // Setups Client Manager
+        this.Channel = options.manager.channel_id
+        this.Message = options.manager.message_id
 
-        this.client.on("error", async (error) => {
-            console.log(`${redBright.bold("[Night]")} ${config.errors["1_error"]}`)
-            console.log(String(error))
+        this.client.on("ready", async () => {
+            setTimeout(async () => {
+                await loginConsole(this.Minecraft, this.Whatsapp, this.Manager, this.Addons, this.Package, this.client);
+            }, 5000);
         });
 
         this.client.on("interactionCreate", async (interaction) => {
-            await this.menuInteraction(interaction)
+            await this.menuInteraction(interaction);
         })
     }
 
@@ -59,11 +65,11 @@ module.exports = class ManagerNight extends EventEmitter {
             const command = this.client.commands.get(interaction.commandName);
             if (command) {
                 await command.execute(interaction, this.client);
-            } else throw new Error(`${redBright.bold("[Night]")} ${config.errors["1_command"]}`);
+            } else throw new Error(`${redBright("[Night]")} ${config.errors["1_command"]}`);
         }
     }
 
-    async init() {
+    async authLicence() {
         process.setMaxListeners(0);
         this.licence = new licenceAuth(this, {
             url: this.url,
@@ -71,29 +77,23 @@ module.exports = class ManagerNight extends EventEmitter {
             product: this.product,
             version: this.version,
             api_key: this.api_key
-        }).then((data) => {
-            if (data === true) return true;
-            else return undefined;
-        }).catch((error) => {
-            console.log(`${redBright.bold("[Night]")} ${error.stack}`)
-        })
+        });
 
-        if (this.licence === undefined) {
-            console.log(`${redBright.bold("[Night]")} ${config.errors["1_licence"]}`)
+        if (this.licence === false) {
+            console.log(`${redBright.bold("[Night]")} ${config.errors["1_licence"]}`);
             process.exit(1);
         }
     }
 
-    errorHandler({ error, status }) {
-        console.log(`${redBright.bold("[Night]")} ${error.stack}`);
-        const nombre = error.stack.split("\n")[1].split("/").slice(-1)[0].split(" ")[0];
-        const tiempo = new Date().toLocaleString("es-ES", { timeZone: "America/Argentina/Buenos_Aires" });
-        console.table([{ Nombre: nombre, Tiempo: tiempo, Estado: status }], ["Name", "Time", "Status"]);
+    async animeApi(action) {
+        const { body } = await get(`https://api.waifu.pics/sfw/${action}`);
+        return body.url;
     }
 
-    errorCommand({ error, status, name }) {
-        console.log(`${redBright.bold("[Night]")} ${error.stack}`);
-        const tiempo = new Date().toLocaleString("es-ES", { timeZone: "America/Argentina/Buenos_Aires" });
-        console.table([{ Tiempo: tiempo, Estado: status, Comando: name }], ["Name", "Time", "Status", "Command"]);
+    async managerStatus() {
+        var job = new CronJob('0 1,9,17,23,29,35,41,47,53,59 * * * *', function () {
+            Manager(this.client, this.Channel, this.Message)
+        }, null, true, 'Europe/Berlin');
+        job.start(); 
     }
 }

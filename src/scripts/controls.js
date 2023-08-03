@@ -15,7 +15,7 @@
 */
 
 const { redBright, green, yellow, cyan } = require("chalk");
-const config = require("../config/config.json");
+const config = require("../../config/config.json");
 const { EventEmitter } = require("events");
 const os = require("node:os");
 

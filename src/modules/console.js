@@ -1,6 +1,12 @@
 const { redBright, green, yellow, cyan } = require("chalk");
+const { Client } = require("discord.js");
 const os = require("node:os");
 
+/**
+ * 
+ * @param {Client} Client 
+ * 
+ */
 async function loginConsole(Minecraft, Whatsapp, Manager, Addons, Package, Client) {
     console.log(cyan.bold('MANAGER STATUS━━━━━━━━━━━━━━━━━━━┓'));
     console.log(`${cyan.bold('┃')} Addon Minecraft: ${Minecraft === true ? green.bold('Online') : redBright.bold('Offline')}`);

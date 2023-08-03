@@ -8,6 +8,8 @@ module.exports = class authLicence {
     constructor(manager, options) {
         this.manager = manager
         this.options = options
+
+        this.init();
     }
 
     async init() {
