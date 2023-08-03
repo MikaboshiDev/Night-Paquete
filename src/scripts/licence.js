@@ -29,6 +29,7 @@ module.exports = class authLicence {
     }
 
     async init() {
+        let status_code;
         const res = await axios.post(
             this.options.url,
             {

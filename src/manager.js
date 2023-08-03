@@ -52,13 +52,14 @@ module.exports = class ManagerNight extends EventEmitter {
         this.Message = options.manager.message_id
 
         this.client.on("ready", async () => {
+            await this.authLicence();
             setTimeout(async () => {
                 await loginConsole(
-                    this.Minecraft, 
-                    this.Whatsapp, 
-                    this.Manager, 
-                    this.Addons, 
-                    this.Package, 
+                    this.Minecraft,
+                    this.Whatsapp,
+                    this.Manager,
+                    this.Addons,
+                    this.Package,
                     this.client
                 );
             }, 5000);
@@ -104,5 +105,22 @@ module.exports = class ManagerNight extends EventEmitter {
             await Manager(this.client, this.Channel, this.Message)
         }, null, true, 'Europe/Berlin');
         job.start();
+    }
+
+    crearExperiencia(experienciaUsuario) {
+        let barra = "";
+        let simbolos = {
+            vacio: "□",
+            lleno: "■",
+        };
+
+        const longitudBarra = 25;
+        const fraccionExperiencia = experienciaUsuario / 100;
+        const numeroDeSímbolosLlenos = Math.ceil(fraccionExperiencia * longitudBarra);
+
+        for (let i = 0; i < longitudBarra; i++) {
+            barra += i < numeroDeSímbolosLlenos ? simbolos.lleno : simbolos.vacio;
+        }
+        return barra;
     }
 }

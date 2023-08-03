@@ -20,7 +20,7 @@ este paquete es de uso exclusivo para bots de discordia, no se recomienda su uso
 Para instalar el paquete solo debes ejecutar el siguiente comando en la terminal de tu proyecto.
 
 ```sh
-npm i @hanzel/nekopackage
+npm i night-controls
 ```
 
 ## 📚 Documentacion
