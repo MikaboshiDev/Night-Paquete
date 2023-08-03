@@ -1,6 +1,6 @@
 {
    "name": "night-controls",
-   "version": "1.0.7",
+   "version": "1.0.8",
    "description": "Package that helps support and optimize discord bots from different functions and declared classes",
    "main": "index.js",
    "type": "commonjs",
@@ -15,9 +15,8 @@
       "neko-manager",
       "discord",
       "console",
-      "paypal",
       "night support",
-      "chatgpt",
+      "private",
       "controls"
    ],
    "author": "Night Studio",
@@ -27,6 +26,7 @@
    },
    "homepage": "https://github.com/MikaboshiDev/Night-Support#readme",
    "dependencies": {
+      "@discordjs/rest": "^2.0.0",
       "axios": "^1.4.0",
       "chalk": "^4.1.2",
       "cron": "^2.4.0",

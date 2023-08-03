@@ -15,4 +15,5 @@
 */
 
 exports.NightControl = require("./src/scripts/controls");
+exports.NightDarkmode = require("./src/scripts/darkmode");
 exports.NightManager = require("./src/manager");

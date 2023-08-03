@@ -35,27 +35,32 @@ en caso de que tengas dudas o errores con el paquete puedes unirte al [servidor 
 
 El paquete cuenta con clases y funciones especializadas para facilitar el control del bot de discord por medio de log, licencias, addons, etc. para usar el paquete solo debes importarlo en tu archivo principal y crear una instancia de la clase `NightManager, NightControls, NightDarkmode` con los parametros que se muestran a continuacion como ejemplo.
 
+### NightManager (Clase)
+
 ```js
 const { NightManager } = require("night-controls");
 const { Client } = require("discord.js");
 const manager = new NightManager(client, {
   package: require("./package.json")
-  systems: {
-    minecraft: false
-    whatsapp: false
-    manager: false
-    addons: fs.readdirSync("./addons").lenght
-  },
   licence: {
     licence: "ADTY-1234-5678-9101",
     api_key: "1wwd8wd8dw8ew7e7iodvdwdwer",
     product_id: "Bot_Discord",
     version: "1.0.0",
     url: "https://271.0.0.1:3000/api/client"
-  },
-  manager: {
-    channel_id: "channel_id",
-    message_id: "message_id",
+  }
+});
+```
+
+### NightDarkmode (Clase)
+
+```js
+const { NightDarkmode } = require("night-controls");
+const { Client } = require("discord.js");
+const darkmode = new NightDarkmode(client, {
+  general: {
+    enabled: true,
+    serverId: "server_id",
   }
 });
 ```
