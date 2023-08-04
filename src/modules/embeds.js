@@ -21,10 +21,10 @@ const os = require("node:os");
 /**
  * 
  * @param {Client} client 
- * @param {String} channel 
- * @param {String} message 
+ * @param {String} channel_id
+ * @param {String} message_id
  */
-async function Manager(client, channel, message) {
+async function Manager(client, channel_id, message_id) {
     const i = new EmbedBuilder()
         .setAuthor({ name: `GENERAL BOT INFORMATION` })
         .setDescription(`\`\`\`yml\nNombre: ${client.user.username}\nID: ${client.user.id}\nCreado: ${client.user.createdAt.toLocaleString()}\n\`\`\``)
@@ -92,8 +92,8 @@ async function Manager(client, channel, message) {
             .setStyle(ButtonStyle.Danger),
     );
 
-    const channel = await client.channels.cache.get(channel);
-    const message = await channel.messages.fetch(message);
+    const channel = await client.channels.cache.get(channel_id);
+    const message = await channel.messages.fetch(message_id);
     message.edit({ embeds: [a, i, b], components: [o] });
 }
 

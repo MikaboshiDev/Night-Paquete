@@ -17,9 +17,9 @@
 const { Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const { redBright, green, yellow, cyan } = require("chalk");
 const { loginConsole } = require("./modules/console");
-const licenceAuth = require("./scripts/licence");
 const { Manager } = require("./modules/embeds");
 const config = require("../config/config.json");
+const licenceAuth = require("./class/licence");
 const { EventEmitter } = require("events");
 var CronJob = require('cron').CronJob;
 const { get } = require("axios");
@@ -33,13 +33,6 @@ module.exports = class ManagerNight extends EventEmitter {
         if (!client?.options) throw new Error(`${redBright.bold("[Night]")} ${config.errors["1_client"]}`);
         this.client = client;
 
-        //General system variables
-        this.Minecraft = options.systems.minecraft;
-        this.Whatsapp = options.systems.whatsapp;
-        this.Manager = options.systems.manager;
-        this.Addons = options.systems.addons;
-        this.Package = options.package;
-
         //Licence system variables
         this._licence = options.licence.licence;
         this.api_key = options.licence.api_key;
@@ -50,14 +43,14 @@ module.exports = class ManagerNight extends EventEmitter {
         //Manager system variables
         this.Channel = options.manager.channel_id
         this.Message = options.manager.message_id
+        this.Package = options.manager.package
+        this.Addons = options.manager.addons
 
         this.client.on("ready", async () => {
+            await this.managerStatus();
             await this.authLicence();
             setTimeout(async () => {
                 await loginConsole(
-                    this.Minecraft,
-                    this.Whatsapp,
-                    this.Manager,
                     this.Addons,
                     this.Package,
                     this.client
@@ -91,13 +84,8 @@ module.exports = class ManagerNight extends EventEmitter {
 
         if (this.licence === false) {
             console.log(`${redBright.bold("[Night]")} ${config.errors["1_licence"]}`);
-            process.exit(1);
+            this.client.destroy();
         }
-    }
-
-    async animeApi(action) {
-        const { body } = await get(`https://api.waifu.pics/sfw/${action}`);
-        return body.url;
     }
 
     async managerStatus() {
@@ -105,22 +93,5 @@ module.exports = class ManagerNight extends EventEmitter {
             await Manager(this.client, this.Channel, this.Message)
         }, null, true, 'Europe/Berlin');
         job.start();
-    }
-
-    crearExperiencia(experienciaUsuario) {
-        let barra = "";
-        let simbolos = {
-            vacio: "□",
-            lleno: "■",
-        };
-
-        const longitudBarra = 25;
-        const fraccionExperiencia = experienciaUsuario / 100;
-        const numeroDeSímbolosLlenos = Math.ceil(fraccionExperiencia * longitudBarra);
-
-        for (let i = 0; i < longitudBarra; i++) {
-            barra += i < numeroDeSímbolosLlenos ? simbolos.lleno : simbolos.vacio;
-        }
-        return barra;
     }
 }

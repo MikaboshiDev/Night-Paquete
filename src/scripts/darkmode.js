@@ -25,8 +25,8 @@ module.exports = class DarkNight extends EventEmitter {
         this.client = client;
 
         //General system variables
-        this._enabled = options.general.enabled
-        this._serverId = options.general.serverId
+        this._enabled = options.enabled
+        this._serverId = options.serverId
 
         if (this._enabled === false) return;
         this.client.on("ready", async () => {
