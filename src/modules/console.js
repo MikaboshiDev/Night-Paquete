@@ -19,6 +19,12 @@ const { Client } = require("discord.js");
 const os = require("node:os");
 
 async function loginConsole(addons, package, client) {
+    printHostStatus();
+    printStatsCommands(addons, client);
+    printBotInfo(package, client);
+}
+
+function printHostStatus() {
     console.log(cyan.bold('HOSTING STATUS━━━━━━━━━━━━━━━━━━━┓'));
     console.log(`${cyan.bold('┃')} Cpu Arquitecture: ${green.bold(os.arch())}`);
     console.log(`${cyan.bold('┃')} Cpu Model: ${green.bold(os.cpus()[0].model)}`);
@@ -27,14 +33,18 @@ async function loginConsole(addons, package, client) {
     console.log(`${cyan.bold('┃')} Network Interface: ${green.bold(os.networkInterfaces().eth0[0].address)}`);
     console.log(`${cyan.bold('┃')} Network Interface: ${green.bold(os.networkInterfaces().eth0[0].mac)}`);
     console.log(cyan.bold('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛'));
+}
 
+function printStatsCommands(addons, client) {
     console.log(yellow.bold('STATS COMMANDS━━━━━━━━━━━━━━━━━━━┓'));
     console.log(`${yellow.bold('┃')} Total Prefix: ${green.bold(client.precommands.size)}`);
     console.log(`${yellow.bold('┃')} Total Commands: ${green.bold(client.commands.size)}`);
     console.log(`${yellow.bold('┃')} Total Events: ${green.bold(client.events.size)}`);
     console.log(`${yellow.bold('┃')} Total Addons: ${green.bold(addons)}`);
     console.log(yellow.bold('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛'));
+}
 
+function printBotInfo(package, client) {
     console.log(redBright.bold('BOT INFO━━━━━━━━━━━━━━━━━━━━━━━━━┓'));
     console.log(`${redBright.bold('┃')} Bot Version: ${green.bold(package.version)}`);
     console.log(`${redBright.bold('┃')} Bot Author: ${green.bold(package.author)}`);
@@ -44,4 +54,4 @@ async function loginConsole(addons, package, client) {
     console.log(redBright.bold('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛'));
 }
 
-module.exports = { loginConsole }
+module.exports = { loginConsole };

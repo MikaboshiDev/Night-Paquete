@@ -14,84 +14,115 @@
 # If you want to know more about the bot, you can visit our website.
 */
 
-const { Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const { redBright, green, yellow, cyan } = require("chalk");
 const { loginConsole } = require("./modules/console");
+const LicenceAuth = require("./clases/authLicence");
+const AuthPackage = require("./clases/authPackage");
+const { Client, Intents } = require("discord.js");
 const { Manager } = require("./modules/embeds");
 const config = require("../config/config.json");
-const licenceAuth = require("./class/licence");
-const { EventEmitter } = require("events");
-var CronJob = require('cron').CronJob;
-const { get } = require("axios");
-const os = require("node:os");
 
-module.exports = class ManagerNight extends EventEmitter {
+class ManagerNight {
     constructor(client, options) {
-        super();
-
-        //Client required variable check
-        if (!client?.options) throw new Error(`${redBright.bold("[Night]")} ${config.errors["1_client"]}`);
         this.client = client;
+        this.options = options;
 
-        //Licence system variables
-        this._licence = options.licence.licence;
-        this.api_key = options.licence.api_key;
-        this.product = options.licence.product;
-        this.version = options.licence.version;
-        this._url = options.licence.url;
+        this.validatePackageKey();
+        this.validateClient();
+        this.initClient();
 
-        //Manager system variables
-        this.Channel = options.manager.channel_id
-        this.Message = options.manager.message_id
-        this.Package = options.manager.package
-        this.Addons = options.manager.addons
+        this.licence = new LicenceAuth(this, {
+            url: options.licence.url,
+            licence: options.licence.licence,
+            product: options.licence.product,
+            version: options.licence.version,
+            api_key: options.licence.api_key,
+        });
 
-        this.client.on("ready", async () => {
-            await this.managerStatus();
+        this.authPackage = new AuthPackage(this, {
+            packageKey: options.manager.packageKey,
+        });
+
+        this.startManagerStatusCronJob();
+    }
+
+    validatePackageKey() {
+        if (!this.authPackage.validatePackageKey()) {
+            throw new Error(`${config.errors["1_package_key"]}`);
+        }
+    }
+    
+    validateClient() {
+        if (!(this.client instanceof Client) || !this.client.options) {
+            throw new Error(`${config.errors["1_client"]}`);
+        }
+    }
+
+    initClient() {
+        this.client.once("ready", async () => {
+            console.log("Bot is ready!");
             await this.authLicence();
             setTimeout(async () => {
-                await loginConsole(
-                    this.Addons,
-                    this.Package,
-                    this.client
-                );
+                await this.loginConsole();
             }, 5000);
         });
 
         this.client.on("interactionCreate", async (interaction) => {
-            await this.menuInteraction(interaction);
+            if (interaction.isContextMenuCommand()) {
+                await this.handleContextMenuCommand(interaction);
+            }
         });
     }
 
-    async menuInteraction(interaction) {
-        if (interaction.isContextMenuCommand()) {
-            const command = this.client.commands.get(interaction.commandName);
-            if (command) {
-                await command.execute(interaction, this.client);
-            } else throw new Error(`${redBright("[Night]")} ${config.errors["1_command"]}`);
+    async handleContextMenuCommand(interaction) {
+        const command = this.client.commands.get(interaction.commandName);
+        if (!command) {
+            throw new Error(`${config.errors["1_command"]}`);
         }
+        await command.execute(interaction, this.client);
     }
 
     async authLicence() {
         process.setMaxListeners(0);
-        this.licence = new licenceAuth(this, {
-            url: this._url,
-            licence: this._licence,
-            product: this.product,
-            version: this.version,
-            api_key: this.api_key
-        });
+        const isValidLicence = await this.licence.validate();
 
-        if (this.licence === false) {
+        if (!isValidLicence) {
             console.log(`${redBright.bold("[Night]")} ${config.errors["1_licence"]}`);
             this.client.destroy();
         }
     }
 
-    async managerStatus() {
-        var job = new CronJob('0 1,9,17,23,29,35,41,47,53,59 * * * *', async function () {
-            await Manager(this.client, this.Channel, this.Message)
-        }, null, true, 'Europe/Berlin');
-        job.start();
+    async loginConsole() {
+        try {
+            await loginConsole(
+                this.options.manager.addons,
+                this.options.manager.package,
+                this.client
+            );
+        } catch (error) {
+            console.error("Error while login to console:", error.message);
+        }
+    }
+
+    startManagerStatusCronJob() {
+        try {
+            const job = new CronJob(
+                "0 1,9,17,23,29,35,41,47,53,59 * * * *",
+                async () => {
+                    await Manager(
+                        this.client,
+                        this.options.manager.channel_id,
+                        this.options.manager.message_id
+                    );
+                },
+                null,
+                true,
+                "Europe/Berlin"
+            );
+            job.start();
+        } catch (error) {
+            console.error("Error while starting cron job:", error.message);
+        }
     }
 }
+
+module.exports = ManagerNight;

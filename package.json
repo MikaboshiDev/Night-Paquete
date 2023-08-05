@@ -1,6 +1,6 @@
 {
    "name": "night-controls",
-   "version": "1.0.8",
+   "version": "1.0.9",
    "description": "Package that helps support and optimize discord bots from different functions and declared classes",
    "main": "index.js",
    "type": "commonjs",
