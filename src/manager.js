@@ -14,12 +14,22 @@
 # If you want to know more about the bot, you can visit our website.
 */
 
+const { logWithLabel } = require("./manager/prefijos");
 const { loginConsole } = require("./modules/console");
 const LicenceAuth = require("./clases/authLicence");
 const AuthPackage = require("./clases/authPackage");
 const { Client, Intents } = require("discord.js");
 const { Manager } = require("./modules/embeds");
 const config = require("../config/config.json");
+
+const config = {
+    errors: {
+        "1_package_key": "Invalid package key.",
+        "1_client": "Invalid client or client options.",
+        "1_command": "Command not found.",
+        "1_licence": "Invalid license.",
+    },
+};
 
 class ManagerNight {
     constructor(client, options) {
@@ -47,13 +57,13 @@ class ManagerNight {
 
     validatePackageKey() {
         if (!this.authPackage.validatePackageKey()) {
-            throw new Error(`${config.errors["1_package_key"]}`);
+            return logWithLabel("error", `${config.errors["1_package_key"]}`);
         }
     }
     
     validateClient() {
         if (!(this.client instanceof Client) || !this.client.options) {
-            throw new Error(`${config.errors["1_client"]}`);
+            return logWithLabel("error", `${config.errors["1_client"]}`);
         }
     }
 
@@ -75,9 +85,7 @@ class ManagerNight {
 
     async handleContextMenuCommand(interaction) {
         const command = this.client.commands.get(interaction.commandName);
-        if (!command) {
-            throw new Error(`${config.errors["1_command"]}`);
-        }
+        if (!command) return logWithLabel("error", `${config.errors["1_command"]}`);
         await command.execute(interaction, this.client);
     }
 
@@ -86,7 +94,7 @@ class ManagerNight {
         const isValidLicence = await this.licence.validate();
 
         if (!isValidLicence) {
-            console.log(`${redBright.bold("[Night]")} ${config.errors["1_licence"]}`);
+            logWithLabel("error", `${config.errors["1_licence"]}`);
             this.client.destroy();
         }
     }
@@ -99,7 +107,7 @@ class ManagerNight {
                 this.client
             );
         } catch (error) {
-            console.error("Error while login to console:", error.message);
+            logWithLabel("error", error.message);
         }
     }
 
@@ -120,7 +128,7 @@ class ManagerNight {
             );
             job.start();
         } catch (error) {
-            console.error("Error while starting cron job:", error.message);
+            logWithLabel("error", error.message);
         }
     }
 }
