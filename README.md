@@ -39,15 +39,15 @@ El paquete cuenta con clases y funciones especializadas para facilitar el contro
 
 ```js
 const { NightManager } = require("night-controls");
-const { Client } = require("discord.js");
-const manager = new NightManager(client, {
+const { r_client } = require("discord.js");
+const manager = new NightManager(r_client, {
   package: require("./package.json")
   licence: {
     licence: "ADTY-1234-5678-9101",
     api_key: "1wwd8wd8dw8ew7e7iodvdwdwer",
     product_id: "Bot_Discord",
     version: "1.0.0",
-    url: "https://271.0.0.1:3000/api/client"
+    url: "https://271.0.0.1:3000/api/r_client"
   }
 });
 ```
@@ -55,13 +55,13 @@ const manager = new NightManager(client, {
 ### NightDarkmode (Clase)
 
 ```js
-const { NightDarkmode } = require("night-controls");
-const { Client } = require("discord.js");
-const darkmode = new NightDarkmode(client, {
-  general: {
-    enabled: true,
-    serverId: "server_id",
-  }
+const { NightDarkmode } = require('night-controls');
+const { r_client } = require('discord.js');
+const darkmode = new NightDarkmode(r_client, {
+   general: {
+      enabled: true,
+      serverId: 'server_id',
+   },
 });
 ```
 
