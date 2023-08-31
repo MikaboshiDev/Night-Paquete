@@ -28,8 +28,8 @@ npm i night-controls
 Documentacion del paquete [aqui](https://luiss-horus.gitbook.io/documentacion/), no olvides pasar por el [dashboard](https://bit.ly/nightdashboard) para ver los comandos y eventos que contiene el paquete.
 en caso de que tengas dudas o errores con el paquete puedes unirte al [servidor de soporte](https://discord.gg/pgDje8S3Ed) para recibir ayuda.
 
--  [Documentacion](https://bit.ly/nightdevelopment)
--  [Dashboard](https://bit.ly/nightdashboard)
+- [Documentacion](https://bit.ly/nightdevelopment)
+- [Dashboard](https://bit.ly/nightdashboard)
 
 ## 💻 Ejemplo
 
@@ -81,11 +81,6 @@ recuerda es un ejemplo por lo que descubrir el resto de funciones y paquetes dep
       <a href="https://tienda.demonscraft.live/" target="_blank">
       <img src="https://cdn.discordapp.com/avatars/981339172231077959/9cdca50bb301a589697a5965c4d8ec76.jpg" width="100px;" alt=""/><br /><sub><b>Steve Game</b></sub></a><br />
       <a href="https://www.tiktok.com/@demonscraft1?_op=1&_r=1&_t=8dGvpGDEdFd" title="Code">👍</a>
-    </td>
-    <td align="center">
-      <a href="https://luiss-horus.gitbook.io/documentacion/" target="_blank">
-      <img src="https://cdn.discordapp.com/avatars/749072448397246495/ae9d347e38b4a92f46c7b28646017cde.jpg" width="100px;" alt=""/><br /><sub><b>Dragoner</b></sub></a><br />
-      <a href="https://bit.ly/nightdashboard" title="Code">🤐</a>
     </td>
   </tr>
 </table>

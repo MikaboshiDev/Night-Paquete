@@ -1,5 +1,6 @@
-import { Client } from 'discord.js';
+import { logWithLabel } from './controllers/prefijo.controllers';
 import licenceAuth from './class/licence';
+import { Client } from 'discord.js';
 import chalk from 'chalk';
 
 export class ManagerNight extends Client {
@@ -23,15 +24,15 @@ export class ManagerNight extends Client {
       try {
          const data = await licenceLogin.auth();
          if (data?.status_overview !== 'success' && data?.status_code !== 200) {
-            console.log(chalk.redBright(`[ManagerNight] ${data?.status_overview}`));
+            logWithLabel('error', `Error: ${data?.status_overview}`);
             process.exit(1);
          }
 
          if (data?.status_overview === 'success' && data?.status_code === 200) {
-            console.log(chalk.greenBright(`[ManagerNight] ${data?.status_overview}`));
+            logWithLabel('info', `Success: ${data?.status_overview}`);
          }
       } catch (error) {
-         console.error(chalk.redBright(`[ManagerNight] Error: ${error}`));
+         logWithLabel('error', `Error: ${error}`);
          process.exit(1);
       }
    }

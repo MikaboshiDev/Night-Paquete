@@ -1,5 +1,5 @@
+import { logWithLabel } from '../controllers/prefijo.controllers';
 import axios, { AxiosResponse } from 'axios';
-
 class licenceAuth {
    api_key: string;
    api_url: string;
@@ -32,7 +32,8 @@ class licenceAuth {
          );
          return res.data;
       } catch (err) {
-         throw new Error(`HTTP request failed: ${err}`);
+         logWithLabel("debug", `${err}`)
+         process.exit(1);
       }
    }
 }
