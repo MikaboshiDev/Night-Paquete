@@ -1,7 +1,7 @@
 import { logWithLabel } from './controllers/prefijo.controllers';
 import licenceAuth from './class/licence';
+import WebApi from './class/website';
 import { Client } from 'discord.js';
-import chalk from 'chalk';
 
 export class ManagerNight extends Client {
    private _client: any;
@@ -12,6 +12,7 @@ export class ManagerNight extends Client {
       this._options = _options;
 
       this.start();
+      this.website();
    }
 
    async start() {
@@ -31,6 +32,21 @@ export class ManagerNight extends Client {
          if (data?.status_overview === 'success' && data?.status_code === 200) {
             logWithLabel('info', `Success: ${data?.status_overview}`);
          }
+      } catch (error) {
+         logWithLabel('error', `Error: ${error}`);
+         process.exit(1);
+      }
+   }
+
+   async website() {
+      const webClass = new WebApi(this._client, {
+         webhook: this._options.webhook,
+      });
+
+      try {
+         setInterval(async () => {
+            await webClass.webClient();
+         }, 1000 * 60 * 5);
       } catch (error) {
          logWithLabel('error', `Error: ${error}`);
          process.exit(1);
