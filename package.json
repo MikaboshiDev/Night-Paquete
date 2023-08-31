@@ -1,24 +1,38 @@
 {
-  "name": "night---paquete",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@types/axios": "^0.14.0",
-    "@types/chalk": "^2.2.0",
-    "@types/cron": "^2.4.0",
-    "axios": "^1.5.0",
-    "chalk": "^5.3.0",
-    "cron": "^2.4.3",
-    "discord.js": "^14.13.0"
-  },
-  "devDependencies": {
-    "typescript": "^5.2.2"
-  }
+   "name": "night---paquete",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "dependencies": {
+      "axios": "^1.5.0",
+      "chalk": "^5.3.0",
+      "cron": "^2.4.3",
+      "discord.js": "^14.13.0"
+   },
+   "devDependencies": {
+      "@types/axios": "^0.14.0",
+      "@types/chalk": "^2.2.0",
+      "@types/cron": "^2.4.0",
+      "typescript": "^5.2.2"
+   },
+   "contributors": [
+      {
+         "name": "manhwas_web",
+         "url": "https://github.com/MikaboshiDev"
+      },
+      {
+         "name": "freidynstiven",
+         "url": "https://github.com/freidynstiven"
+      }
+   ],
+   "bugs": {
+      "url": "https://github.com/MikaboshiDev/Night-Paquete/issues"
+   },
+   "icon": "https://cdn.discordapp.com/attachments/1134529955330535487/1142304557611880590/3.gif"
 }
